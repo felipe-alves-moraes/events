@@ -18,7 +18,7 @@ import java.lang.reflect.Type;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Provider
-public class EventMapper implements MessageBodyReader<Event>, MessageBodyWriter<Object> {
+public class EventMapper implements MessageBodyReader<Event>, MessageBodyWriter<Event> {
 
     @Context
     private Providers providers;
@@ -47,7 +47,7 @@ public class EventMapper implements MessageBodyReader<Event>, MessageBodyWriter<
     }
 
     @Override
-    public void writeTo(Object event, Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> multivaluedMap, OutputStream outputStream) throws IOException, WebApplicationException {
+    public void writeTo(Event event, Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> multivaluedMap, OutputStream outputStream) throws IOException, WebApplicationException {
         outputStream.write(jsonb.toJson(event).getBytes());
     }
 
