@@ -12,6 +12,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.util.Optional;
 
 @Path("/events")
 public class EventResource {
@@ -21,14 +23,17 @@ public class EventResource {
 
     @GET
     @Path("/{id}")
-    public Event findById(@PathParam("id") Long id) {
-        return this.eventService.find(id);
+    public Response findById(@PathParam("id") Long id) {
+        return Optional.ofNullable(this.eventService.find(id))
+            .map(Response::ok)
+            .orElse(Response.status(Response.Status.NOT_FOUND))
+            .build();
     }
 
     @POST
     public Response create(@Valid Event event, @Context UriInfo uriInfo) {
-        var id = this.eventService.create(event);
-        var location = uriInfo.getAbsolutePathBuilder().path(String.valueOf(id)).build();
+        Long id = this.eventService.create(event);
+        URI location = uriInfo.getAbsolutePathBuilder().path(String.valueOf(id)).build();
         return Response.created(location).build();
     }
 }

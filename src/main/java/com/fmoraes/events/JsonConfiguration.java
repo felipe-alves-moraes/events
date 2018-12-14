@@ -1,5 +1,6 @@
 package com.fmoraes.events;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
